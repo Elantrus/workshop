@@ -12,23 +12,18 @@ public class User
     public string Email { get; set; }
     public string FullName { get; set; }
     public string Password { get; set; }
-
-    public User(string? email, string? fullname, string? password)
-    {
-        SetEmail(email);
-        SetFullName(fullname);
-        SetPassword(password);
-    }
-
-    private void SetEmail(string? email)
+    public string Role { get; set; }
+    public Guid? RefreshToken { get; set; }
+    
+    public void WithEmail(string? email)
     {
         if (string.IsNullOrEmpty(email) || !Regex.IsMatch(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
             throw new InvalidEmailException();
 
         Email = email;
     }
-
-    private void SetFullName(string? fullname)
+        
+    public void WithName(string? fullname)
     {
         if (string.IsNullOrWhiteSpace(fullname))
             throw new FullNameTooShortException();
@@ -36,7 +31,12 @@ public class User
         FullName = fullname;
     }
     
-    private void SetPassword(string? password)
+    public void WithRole(string? role)
+    {
+        Role = role;
+    }
+    
+    public void WithPassword(string? password)
     {
         if (string.IsNullOrEmpty(password) || password.Length < 8) throw new PasswordTooShortException();
         

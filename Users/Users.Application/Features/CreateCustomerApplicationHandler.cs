@@ -7,10 +7,10 @@ using Users.Infrastructure.Data;
 
 namespace Users.Application.Features;
 
-public class CreateUserApplicationHandler : IRequestHandler<CreateUser.Command, CreateUser.Result>
+public class CreateCustomerApplicationHandler : IRequestHandler<CreateUser.Command, CreateUser.Result>
 {
     private readonly UsersDbContext _usersDbContext;
-    public CreateUserApplicationHandler(UsersDbContext usersDbContext)
+    public CreateCustomerApplicationHandler(UsersDbContext usersDbContext)
     {
         _usersDbContext = usersDbContext;
     }
@@ -23,7 +23,7 @@ public class CreateUserApplicationHandler : IRequestHandler<CreateUser.Command, 
 
         if (customerAlreadyExist is not null) throw new EmailAlreadyExistsException();
         
-        var customerDb = new Customer(request.Email, request.Name, request.Password);
+        var customerDb = Customer.Create(request.Email, request.Name, request.Password);
 
         _usersDbContext.Customers.Add(customerDb);
         
