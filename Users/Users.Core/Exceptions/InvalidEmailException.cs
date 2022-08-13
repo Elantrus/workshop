@@ -1,4 +1,4 @@
-namespace Users.Domain.Exceptions;
+namespace Users.Core.Exceptions;
 
 public class InvalidEmailException : Exception
 {

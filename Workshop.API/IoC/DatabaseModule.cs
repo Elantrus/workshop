@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Users.Infrastructure.Data;
 
-namespace Users.Infrastructure.IoC;
+namespace Workshop.API.IoC;
 
 public static class DatabaseModule
 {

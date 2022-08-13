@@ -1,17 +1,19 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using Users.Core.Exceptions;
 using Users.Core.Extensions;
 
-namespace Users.Domain.Entities;
+namespace Users.Core.Entities;
 
-public class UserBase
+public class User
 {
+    [Key]
     public long UserId { get; set; }
-    public string? Email { get; set; }
-    public string? FullName { get; set; }
-    public string? Password { get; set; }
+    public string Email { get; set; }
+    public string FullName { get; set; }
+    public string Password { get; set; }
 
-    public UserBase(string? email, string? fullname, string? password)
+    public User(string? email, string? fullname, string? password)
     {
         SetEmail(email);
         SetFullName(fullname);

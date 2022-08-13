@@ -1,14 +1,13 @@
 using System.Reflection;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Users.Infrastructure.IoC;
+namespace Workshop.API.IoC;
 
 public static class UsersModule
 {
     public static void AddUsers(this IServiceCollection serviceCollection, bool development)
     {
-        serviceCollection.AddMediatR(typeof(Users.Application));
+        serviceCollection.AddMediatR(typeof(Users.Application.Features.CreateUserApplicationHandler).Assembly);
         serviceCollection.AddUsersDatabase(development);
     }
 }
