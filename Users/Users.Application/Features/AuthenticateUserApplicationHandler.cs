@@ -9,16 +9,16 @@ using Users.Infrastructure.Data;
 
 namespace Users.Application.Features;
 
-public class AuthenticateCustomerApplicationHandler : IRequestHandler<AuthenticateUser.Command, AuthenticateUser.Result>
+public class AuthenticateUserApplicationHandler : IRequestHandler<AuthenticateUser.AuthenticateUserCommand, AuthenticateUser.AuthenticateUserResult>
 {
     private readonly UsersDbContext _usersDbContext;
     private readonly ITokenService _tokenService;
-    public AuthenticateCustomerApplicationHandler(UsersDbContext usersDbContext, ITokenService tokenService)
+    public AuthenticateUserApplicationHandler(UsersDbContext usersDbContext, ITokenService tokenService)
     {
         _usersDbContext = usersDbContext;
         _tokenService = tokenService;
     }
-    public async Task<AuthenticateUser.Result> Handle(AuthenticateUser.Command request, CancellationToken cancellationToken)
+    public async Task<AuthenticateUser.AuthenticateUserResult> Handle(AuthenticateUser.AuthenticateUserCommand request, CancellationToken cancellationToken)
     {
         if (request.Password is null) throw new InvalidPasswordException();
         
@@ -26,29 +26,29 @@ public class AuthenticateCustomerApplicationHandler : IRequestHandler<Authentica
         
         var passwordHash = request.Password.Hash();
 
-        var customerDb = await _usersDbContext.Customers.SingleOrDefaultAsync(x =>
+        var userDb = await _usersDbContext.Users.SingleOrDefaultAsync(x =>
             x.Email.Equals(request.Email, StringComparison.InvariantCultureIgnoreCase), cancellationToken: cancellationToken);
 
-        if (customerDb is null) throw new InvalidEmailException();
+        if (userDb is null) throw new InvalidEmailException();
 
-        if (!customerDb.Password.Equals(passwordHash, StringComparison.InvariantCultureIgnoreCase))
+        if (!userDb.Password.Equals(passwordHash, StringComparison.InvariantCultureIgnoreCase))
             throw new InvalidPasswordException();
         
-        var generatedJwtToken = _tokenService.GenerateToken(customerDb);
+        var generatedJwtToken = _tokenService.GenerateToken(userDb);
         var refreshToken = Guid.NewGuid();
 
-        await SetCustomerRefreshAndSave(refreshToken, customerDb);
+        await SetCustomerRefreshAndSave(refreshToken, userDb);
         
-        return new AuthenticateUser.Result()
+        return new AuthenticateUser.AuthenticateUserResult()
         {
             Token = generatedJwtToken,
-            RefreshToken = customerDb.RefreshToken.ToString()
+            RefreshToken = userDb.RefreshToken.ToString()
         };
     }
 
-    private async Task SetCustomerRefreshAndSave(Guid refreshToken, Customer customerDb)
+    private async Task SetCustomerRefreshAndSave(Guid refreshToken, User userDb)
     {
-        customerDb.RefreshToken = refreshToken;
+        userDb.RefreshToken = refreshToken;
         await _usersDbContext.SaveChangesAsync();
     }
 }

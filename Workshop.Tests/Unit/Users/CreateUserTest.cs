@@ -10,7 +10,7 @@ using Users.Infrastructure.Data;
 
 namespace Workshop.Tests.Unit.Users;
 
-public class CreateCustomerTest
+public class CreateUserTest
 {
     [Test]
     public async Task Test_CreateCustomerShouldReturnIdGreaterThanZero()
@@ -20,7 +20,7 @@ public class CreateCustomerTest
             .Options;
         var dbContext = new UsersDbContext(options);
         var handler = new CreateCustomerApplicationHandler(dbContext);
-        var command = new CreateUser.Command
+        var command = new CreateCustomer.CreateCustomerCommand
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -42,7 +42,7 @@ public class CreateCustomerTest
             .Options;
         var dbContext = new UsersDbContext(options);
         var handler = new CreateCustomerApplicationHandler(dbContext);
-        var command = new CreateUser.Command
+        var command = new CreateCustomer.CreateCustomerCommand
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",

@@ -5,7 +5,7 @@ namespace Workshop.API.IoC;
 
 public static class DatabaseModule
 {
-    public static void MigrateAndSeedUsers(this WebApplication app, bool development)
+    public static void UseMigrateUsers(this WebApplication app, bool development)
     {
         using (var scope = app.Services.CreateScope())
         {

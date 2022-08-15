@@ -8,7 +8,9 @@ public class UsersDbContext : DbContext
     public UsersDbContext(DbContextOptions<UsersDbContext> options) : base(options)
     {
     }
+    public DbSet<User> Users { get; set; }
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<Administrator> Administrators { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

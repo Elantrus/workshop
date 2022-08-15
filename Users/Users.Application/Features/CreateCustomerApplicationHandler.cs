@@ -7,14 +7,14 @@ using Users.Infrastructure.Data;
 
 namespace Users.Application.Features;
 
-public class CreateCustomerApplicationHandler : IRequestHandler<CreateUser.Command, CreateUser.Result>
+public class CreateCustomerApplicationHandler : IRequestHandler<CreateCustomer.CreateCustomerCommand, CreateCustomer.CreateCustomerResult>
 {
     private readonly UsersDbContext _usersDbContext;
     public CreateCustomerApplicationHandler(UsersDbContext usersDbContext)
     {
         _usersDbContext = usersDbContext;
     }
-    public async Task<CreateUser.Result> Handle(CreateUser.Command request, CancellationToken cancellationToken)
+    public async Task<CreateCustomer.CreateCustomerResult> Handle(CreateCustomer.CreateCustomerCommand request, CancellationToken cancellationToken)
     {
         if (request is null) throw new ArgumentNullException();
 
@@ -29,6 +29,6 @@ public class CreateCustomerApplicationHandler : IRequestHandler<CreateUser.Comma
         
         await _usersDbContext.SaveChangesAsync(cancellationToken);
 
-        return customerDb.Adapt<CreateUser.Result>();
+        return customerDb.Adapt<CreateCustomer.CreateCustomerResult>();
     }
 }

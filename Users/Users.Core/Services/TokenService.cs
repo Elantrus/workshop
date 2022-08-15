@@ -15,26 +15,21 @@ public class TokenService : ITokenService
         jwtSecurity = Encoding.UTF8.GetBytes(jwtPassword);
     }
 
-    public string GenerateToken(Customer customerDb)
+    public string GenerateToken(User userDb)
     {
         var secretKey = new SymmetricSecurityKey(jwtSecurity);
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
         var tokeOptions = new JwtSecurityToken(
             claims: new List<Claim>()
             {
-                new Claim(ClaimTypes.Role, customerDb.Role),
-                new Claim(ClaimTypes.Email, customerDb.Email),
-                new Claim(ClaimTypes.NameIdentifier, customerDb.UserId.ToString())
+                new Claim(ClaimTypes.Role, userDb.Role),
+                new Claim(ClaimTypes.Email, userDb.Email),
+                new Claim(ClaimTypes.NameIdentifier, userDb.UserId.ToString())
             },
             expires: DateTime.Now.AddMinutes(5),
             signingCredentials: signinCredentials
         );
         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
         return tokenString;
-    }
-
-    public string RefreshToken(Customer customer, string token)
-    {
-        throw new NotImplementedException();
     }
 }

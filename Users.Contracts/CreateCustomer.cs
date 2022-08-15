@@ -2,16 +2,16 @@ using MediatR;
 
 namespace Users.Contracts;
 
-public class CreateUser
+public class CreateCustomer
 {
-    public class Command : IRequest<Result>
+    public class CreateCustomerCommand : IRequest<CreateCustomerResult>
     {
         public string? Email { get; set; }
         public string? Password { get; set; }
         public string? Name { get; set; }
     }
 
-    public class Result
+    public class CreateCustomerResult
     {
         public long UserId { get; set; }
     }
