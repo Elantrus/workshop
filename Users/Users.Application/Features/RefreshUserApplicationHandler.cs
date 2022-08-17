@@ -1,3 +1,4 @@
+using System.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Users.Contracts;
@@ -21,6 +22,8 @@ public class RefreshUserApplicationHandler : IRequestHandler<RefreshUser.Refresh
     public async Task<RefreshUser.RefreshUserResult> Handle(RefreshUser.RefreshUserCommand request,
         CancellationToken cancellationToken)
     {
+        if (string.IsNullOrEmpty(request?.RefreshToken)) throw new NoNullAllowedException();
+        
         var refreshTokenGuid = Guid.Parse(request.RefreshToken);
         var customerDb =
             await _usersDbContext.Customers.SingleOrDefaultAsync(x => x.RefreshToken == refreshTokenGuid,

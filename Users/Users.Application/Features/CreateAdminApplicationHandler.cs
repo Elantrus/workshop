@@ -19,11 +19,14 @@ public class CreateAdminApplicationHandler : IRequestHandler<CreateAdmin.CreateA
         if (request is null) throw new ArgumentNullException();
 
         var adminAlreadyExist = _usersDbContext.Administrators.SingleOrDefault(x =>
+            x.Email != null &&
             x.Email.Equals(request.Email, StringComparison.InvariantCultureIgnoreCase));
 
         if (adminAlreadyExist is not null) throw new EmailAlreadyExistsException();
+
+        var adminRole = _usersDbContext.Roles.SingleOrDefault(x => x.Name != null && x.Name.Equals("admin"));
         
-        var adminDb = Administrator.Create(request.Email, request.Name, request.Password);
+        var adminDb = Administrator.Create(request.Email, request.Name, request.Password, adminRole);
 
         _usersDbContext.Administrators.Add(adminDb);
         

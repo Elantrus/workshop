@@ -19,11 +19,14 @@ public class CreateCustomerApplicationHandler : IRequestHandler<CreateCustomer.C
         if (request is null) throw new ArgumentNullException();
 
         var customerAlreadyExist = _usersDbContext.Customers.SingleOrDefault(x =>
+            x.Email != null &&
             x.Email.Equals(request.Email, StringComparison.InvariantCultureIgnoreCase));
 
         if (customerAlreadyExist is not null) throw new EmailAlreadyExistsException();
-        
-        var customerDb = Customer.Create(request.Email, request.Name, request.Password);
+
+        var customerRole = _usersDbContext.Roles.SingleOrDefault(x => x.Name != null && x.Name.Equals("customer"));
+
+        var customerDb = Customer.Create(request.Email, request.Name, request.Password, customerRole);
 
         _usersDbContext.Customers.Add(customerDb);
         

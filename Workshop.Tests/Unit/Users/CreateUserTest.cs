@@ -15,10 +15,8 @@ public class CreateUserTest
     [Test]
     public async Task Test_CreateCustomerShouldReturnIdGreaterThanZero()
     {
-        var options = new DbContextOptionsBuilder<UsersDbContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-            .Options;
-        var dbContext = new UsersDbContext(options);
+        var dbContext = InMemoryDatabase.CreateUsersDb();
+
         var handler = new CreateCustomerApplicationHandler(dbContext);
         var command = new CreateCustomer.CreateCustomerCommand
         {
@@ -37,10 +35,8 @@ public class CreateUserTest
     [Test]
     public async Task Test_CreateCustomerShouldReturnUserAlreadyExistsException()
     {
-        var options = new DbContextOptionsBuilder<UsersDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-        var dbContext = new UsersDbContext(options);
+        var dbContext = InMemoryDatabase.CreateUsersDb();
+
         var handler = new CreateCustomerApplicationHandler(dbContext);
         var command = new CreateCustomer.CreateCustomerCommand
         {

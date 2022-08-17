@@ -22,7 +22,7 @@ public class TokenService : ITokenService
         var tokeOptions = new JwtSecurityToken(
             claims: new List<Claim>()
             {
-                new Claim(ClaimTypes.Role, userDb.Role),
+                new Claim(ClaimTypes.Role, userDb.Role.Name),
                 new Claim(ClaimTypes.Email, userDb.Email),
                 new Claim(ClaimTypes.NameIdentifier, userDb.UserId.ToString())
             },

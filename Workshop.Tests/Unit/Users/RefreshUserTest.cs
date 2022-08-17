@@ -15,10 +15,8 @@ public class RefreshCustomerTest
     [Test]
     public async Task Test_UserRefreshShouldReturnTokenAndRefreshToken()
     {
-        var options = new DbContextOptionsBuilder<UsersDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-        var dbContext = new UsersDbContext(options);
+        var dbContext = InMemoryDatabase.CreateUsersDb();
+
         var tokenService = new TokenService("E)H@McQfTjWnZr4u7x!A%D*G-JaNdRgU") as ITokenService;
         var createUserHandler = new CreateCustomerApplicationHandler(dbContext);
         var authenticateUserHandler = new AuthenticateUserApplicationHandler(dbContext, tokenService);

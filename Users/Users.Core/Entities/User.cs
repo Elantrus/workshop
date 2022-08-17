@@ -9,10 +9,13 @@ public class User
 {
     [Key]
     public long UserId { get; set; }
-    public string Email { get; set; }
-    public string FullName { get; set; }
-    public string Password { get; set; }
-    public string Role { get; set; }
+    [Required]
+    public string? Email { get; set; }
+    [Required]
+    public string? FullName { get; set; }
+    [Required]
+    public string? Password { get; set; }
+    public virtual Role? Role { get; set; }
     public Guid? RefreshToken { get; set; }
     
     public void WithEmail(string? email)
@@ -31,7 +34,7 @@ public class User
         FullName = fullname;
     }
     
-    public void WithRole(string? role)
+    public void WithRole(Role? role)
     {
         Role = role;
     }

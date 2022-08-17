@@ -14,10 +14,8 @@ public class CreateAdminTest
     [Test]
     public async Task Test_CreateAdminShouldReturnUserId()
     {
-        var options = new DbContextOptionsBuilder<UsersDbContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-            .Options;
-        var dbContext = new UsersDbContext(options);
+        var dbContext = InMemoryDatabase.CreateUsersDb();
+
         var handler = new CreateAdminApplicationHandler(dbContext);
         var command = new CreateAdmin.CreateAdminCommand
         {

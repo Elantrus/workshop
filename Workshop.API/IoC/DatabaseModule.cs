@@ -16,6 +16,7 @@ public static class DatabaseModule
             if(development)
                 dbContext.Database.Migrate();
             
+            
         }
     }
     
