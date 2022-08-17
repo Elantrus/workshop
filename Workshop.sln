@@ -4,7 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{14CD4518
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workshop.API", "Workshop.API\Workshop.API.csproj", "{1F22090C-E0E9-44FF-B98E-00A518D78901}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Contracts", "Users.Contracts\Users.Contracts.csproj", "{8109D59C-A81B-466D-A6CF-8C63AE1723EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Contracts", "Users\Users.Contracts\Users.Contracts.csproj", "{8109D59C-A81B-466D-A6CF-8C63AE1723EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Application", "Users\Users.Application\Users.Application.csproj", "{575C0365-8505-4C47-BE9D-B44CDDD8E7AD}"
 EndProject
