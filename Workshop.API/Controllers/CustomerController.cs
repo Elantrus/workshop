@@ -5,11 +5,11 @@ using Users.Contracts;
 namespace Workshop.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class UsersController : ControllerBase
+[Route("api/[controller]")]
+public class CustomerController : ControllerBase
 {
     private readonly IMediator _mediator;
-    public UsersController(IMediator mediator)
+    public CustomerController(IMediator mediator)
     {
         _mediator = mediator;
     }

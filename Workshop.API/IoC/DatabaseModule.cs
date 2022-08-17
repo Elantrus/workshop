@@ -13,7 +13,7 @@ public static class DatabaseModule
 
             if (dbContext == null) throw new NullReferenceException();
             
-            if(development)
+            if(!development)
                 dbContext.Database.Migrate();
             
             

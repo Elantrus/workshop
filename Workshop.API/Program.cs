@@ -10,6 +10,7 @@ builder.Services.AddUsers(isDevelopment);
 var app = builder.Build();
 
 app.UseMigrateUsers(isDevelopment);
+app.UseMiddleware<CustomExceptionMiddlerware>();
 
 if (isDevelopment)
 {
