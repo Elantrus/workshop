@@ -18,7 +18,7 @@ public class User
     public virtual Role? Role { get; set; }
     public Guid? RefreshToken { get; set; }
     
-    public void WithEmail(string? email)
+    protected void WithEmail(string? email)
     {
         if (string.IsNullOrEmpty(email) || !Regex.IsMatch(email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
             throw new InvalidEmailException();
@@ -26,20 +26,20 @@ public class User
         Email = email;
     }
         
-    public void WithName(string? fullname)
+    protected void WithName(string? fullname)
     {
         if (string.IsNullOrWhiteSpace(fullname))
             throw new FullNameTooShortException();
 
         FullName = fullname;
     }
-    
-    public void WithRole(Role? role)
+
+    protected void WithRole(Role? role)
     {
         Role = role;
     }
     
-    public void WithPassword(string? password)
+    protected void WithPassword(string? password)
     {
         if (string.IsNullOrEmpty(password) || password.Length < 8) throw new PasswordTooShortException();
         
