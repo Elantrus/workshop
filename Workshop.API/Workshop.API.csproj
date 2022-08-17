@@ -15,6 +15,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Users.Contracts\Users.Contracts.csproj" />
+      <ProjectReference Include="..\Users\Users.Application\Users.Application.csproj" />
+      <ProjectReference Include="..\Users\Users.Infrastructure\Users.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Workshop.Tests" />
     </ItemGroup>
 
 </Project>
