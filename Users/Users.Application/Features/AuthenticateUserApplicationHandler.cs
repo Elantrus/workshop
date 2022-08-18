@@ -9,36 +9,45 @@ using Users.Infrastructure.Data;
 
 namespace Users.Application.Features;
 
-public class AuthenticateUserApplicationHandler : IRequestHandler<AuthenticateUser.AuthenticateUserCommand, AuthenticateUser.AuthenticateUserResult>
+public class AuthenticateUserApplicationHandler : IRequestHandler<AuthenticateUser.AuthenticateUserCommand,
+    AuthenticateUser.AuthenticateUserResult>
 {
     private readonly UsersDbContext _usersDbContext;
     private readonly ITokenService _tokenService;
+
     public AuthenticateUserApplicationHandler(UsersDbContext usersDbContext, ITokenService tokenService)
     {
         _usersDbContext = usersDbContext;
         _tokenService = tokenService;
     }
-    public async Task<AuthenticateUser.AuthenticateUserResult> Handle(AuthenticateUser.AuthenticateUserCommand request, CancellationToken cancellationToken)
+
+    public async Task<AuthenticateUser.AuthenticateUserResult> Handle(AuthenticateUser.AuthenticateUserCommand request,
+        CancellationToken cancellationToken)
     {
         if (request.Password is null) throw new InvalidPasswordException();
-        
+
         if (request.Email is null) throw new InvalidEmailException();
-        
+
         var passwordHash = request.Password.Hash();
 
-        var userDb = await _usersDbContext.Users.SingleOrDefaultAsync(x =>
-            x.Email.Equals(request.Email, StringComparison.InvariantCultureIgnoreCase), cancellationToken: cancellationToken);
+        var userDb = await _usersDbContext.Users
+            .Include(x => x.Role)
+            .SingleOrDefaultAsync(x =>
+                x.Email != null &&
+                x.Email.Equals(request.Email, StringComparison.InvariantCultureIgnoreCase),
+            cancellationToken: cancellationToken);
 
         if (userDb is null) throw new InvalidEmailException();
 
-        if (!userDb.Password.Equals(passwordHash, StringComparison.InvariantCultureIgnoreCase))
+        if (string.IsNullOrEmpty(userDb.Password) ||
+            !userDb.Password.Equals(passwordHash, StringComparison.InvariantCultureIgnoreCase))
             throw new InvalidPasswordException();
-        
+
         var generatedJwtToken = _tokenService.GenerateToken(userDb);
         var refreshToken = Guid.NewGuid();
 
         await SetCustomerRefreshAndSave(refreshToken, userDb);
-        
+
         return new AuthenticateUser.AuthenticateUserResult()
         {
             Token = generatedJwtToken,

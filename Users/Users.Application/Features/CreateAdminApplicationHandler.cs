@@ -24,7 +24,7 @@ public class CreateAdminApplicationHandler : IRequestHandler<CreateAdmin.CreateA
 
         if (adminAlreadyExist is not null) throw new EmailAlreadyExistsException();
 
-        var adminRole = _usersDbContext.Roles.SingleOrDefault(x => x.Name != null && x.Name.Equals("admin"));
+        var adminRole = _usersDbContext.Roles.SingleOrDefault(x => x.Name != null && x.Name.Equals("admin")) ?? throw new RoleNotFoundException();
         
         var adminDb = Administrator.Create(request.Email, request.Name, request.Password, adminRole);
 

@@ -24,7 +24,7 @@ public class CreateCustomerApplicationHandler : IRequestHandler<CreateCustomer.C
 
         if (customerAlreadyExist is not null) throw new EmailAlreadyExistsException();
 
-        var customerRole = _usersDbContext.Roles.SingleOrDefault(x => x.Name != null && x.Name.Equals("customer"));
+        var customerRole = _usersDbContext.Roles.SingleOrDefault(x => x.Name != null && x.Name.Equals("customer")) ?? throw new RoleNotFoundException();
 
         var customerDb = Customer.Create(request.Email, request.Name, request.Password, customerRole);
 
