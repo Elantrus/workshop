@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Users.Application.Features;
-using Users.Contracts;
 using Users.Core.Exceptions;
 
 namespace Workshop.Tests.Unit.Users;
@@ -15,8 +14,8 @@ public class AssignAdministratorRoleTest
     {
         var dbContext = InMemoryDatabase.CreateUsersDb();
         
-        var createAdminHandler = new CreateAdminApplicationHandler(dbContext);
-        var createAdminCommand = new CreateAdmin.CreateAdminCommand
+        var createAdminHandler = new CreateAdmin.Handler(dbContext);
+        var createAdminCommand = new CreateAdmin.Command
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -25,8 +24,8 @@ public class AssignAdministratorRoleTest
         
         var createAdminResult = await createAdminHandler.Handle(createAdminCommand, CancellationToken.None);
         
-        var handler = new AssignAdministratorRoleHandler(dbContext);
-        var command = new AssignAdministratorRole.AssignAdministratorRoleCommand
+        var handler = new AssignAdministratorRole.Handler(dbContext);
+        var command = new AssignAdministratorRole.Command
         {
            RoleId = 1,
            UserId = createAdminResult.UserId
@@ -42,8 +41,8 @@ public class AssignAdministratorRoleTest
     {
         var dbContext = InMemoryDatabase.CreateUsersDb();
        
-        var handler = new AssignAdministratorRoleHandler(dbContext);
-        var command = new AssignAdministratorRole.AssignAdministratorRoleCommand
+        var handler = new AssignAdministratorRole.Handler(dbContext);
+        var command = new AssignAdministratorRole.Command()
         {
             RoleId = 999
         };
@@ -67,8 +66,8 @@ public class AssignAdministratorRoleTest
     {
         var dbContext = InMemoryDatabase.CreateUsersDb();
        
-        var handler = new AssignAdministratorRoleHandler(dbContext);
-        var command = new AssignAdministratorRole.AssignAdministratorRoleCommand
+        var handler = new AssignAdministratorRole.Handler(dbContext);
+        var command = new AssignAdministratorRole.Command()
         {
             RoleId = 1,
             UserId = long.MaxValue

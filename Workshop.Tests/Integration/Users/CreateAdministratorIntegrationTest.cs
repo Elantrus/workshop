@@ -6,23 +6,24 @@ using Users.Application.Features;
 
 namespace Workshop.Tests.Integration.Users;
 
-public class CreateCustomerIntegrationTest
+public class CreateAdministratorIntegrationTest
 {
     [Test]
-    public async Task Test_CreateCustomerShouldReturnUserId()
+    public async Task Test_CreateAdministratorShouldReturnUserId()
     {
         var testServer = new IntegrationTestServer();
+        await testServer.LoginAsSystem();
 
-        var createUserCommand = new CreateCustomer.Command()
+        var createUserCommand = new CreateAdmin.Command()
         {
             Email = "testuser@gmail.com",
             Name = "Lazaro Junior",
             Password = "Pass0wor0d@@"
         };
 
-        var response = await testServer.Client.PostAsJsonAsync("/api/customer", createUserCommand);
+        var response = await testServer.Client.PostAsJsonAsync("/api/administrator", createUserCommand);
         var serializedResponseContent = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<CreateCustomer.Result>(serializedResponseContent);
+        var result = JsonConvert.DeserializeObject<CreateAdmin.Result>(serializedResponseContent);
         
         Assert.True(response.IsSuccessStatusCode);
         Assert.NotNull(result);

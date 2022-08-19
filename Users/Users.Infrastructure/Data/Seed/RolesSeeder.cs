@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Users.Core.Entities;
 
-namespace Users.Infrastructure.Seeds;
+namespace Users.Infrastructure.Data.Seed;
 
-public static class RolesSeedBuilder
+public static class RolesSeeder
 {
     public static EntityTypeBuilder<Role> HasRoles(this EntityTypeBuilder<Role> builder)
     {

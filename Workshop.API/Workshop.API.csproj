@@ -10,11 +10,11 @@
     <ItemGroup>
         <PackageReference Include="MediatR" Version="10.0.1" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Users\Users.Contracts\Users.Contracts.csproj" />
       <ProjectReference Include="..\Users\Users.Application\Users.Application.csproj" />
       <ProjectReference Include="..\Users\Users.Infrastructure\Users.Infrastructure.csproj" />
     </ItemGroup>

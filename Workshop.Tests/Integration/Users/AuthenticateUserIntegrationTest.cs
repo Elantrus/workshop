@@ -1,8 +1,6 @@
-using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using NUnit.Framework;
-using Users.Contracts;
+using Users.Application.Features;
 
 namespace Workshop.Tests.Integration.Users;
 
@@ -15,13 +13,13 @@ public class AuthenticateUserIntegrationTest
         var email = "spynrt@gmail.com";
         var password = "S4$roNg)9";
         var createdUser = await testServer.CreateCustomer(email, password);
-        var authenticationCommand = new AuthenticateUser.AuthenticateUserCommand
+        var authenticationCommand = new AuthenticateUser.Command
         {
             Email = email,
             Password = password
         };
 
-        var result = await testServer.Post<AuthenticateUser.AuthenticateUserResult>("/api/authentication", authenticationCommand);
+        var result = await testServer.Post<AuthenticateUser.Result>("/api/authentication", authenticationCommand);
         
         Assert.NotNull(result);
         Assert.NotNull(result.Token);

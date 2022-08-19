@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 using Users.Core.Exceptions;
 using Users.Core.Extensions;
@@ -9,13 +10,25 @@ public class User
 {
     [Key]
     public long UserId { get; set; }
+    
     [Required]
+    [MinLength(5)]
+    [RegularExpression(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")]
     public string? Email { get; set; }
+    
     [Required]
+    [MinLength(5)]
     public string? FullName { get; set; }
+    
     [Required]
+    [MinLength(8)]
     public string? Password { get; set; }
+    
+    [ForeignKey(nameof(Role))]
+    public long RoleId { get; set; }
+    
     public virtual Role? Role { get; set; }
+    
     public Guid? RefreshToken { get; set; }
     
     protected void WithEmail(string? email)
@@ -28,7 +41,7 @@ public class User
         
     protected void WithName(string? fullname)
     {
-        if (string.IsNullOrWhiteSpace(fullname))
+        if (string.IsNullOrWhiteSpace(fullname) || fullname.Length < 5)
             throw new FullNameTooShortException();
 
         FullName = fullname;

@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Users.Contracts;
+using Users.Application.Features;
 
 namespace Workshop.API.Controllers;
 
@@ -15,7 +15,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Authenticate([FromBody] AuthenticateUser.AuthenticateUserCommand command)
+    public async Task<IActionResult> Authenticate([FromBody] AuthenticateUser.Command command)
     {
         var result = await _mediator.Send(command);
         return Ok(result);

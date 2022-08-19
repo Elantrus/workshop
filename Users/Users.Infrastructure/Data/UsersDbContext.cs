@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Users.Core.Entities;
-using Users.Infrastructure.Seeds;
+using Users.Core.Extensions;
+using Users.Infrastructure.Data.Seed;
 
 namespace Users.Infrastructure.Data;
 
@@ -18,6 +19,7 @@ public class UsersDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Role>().HasRoles();
+        modelBuilder.Entity<Administrator>().HasAdmin();
         base.OnModelCreating(modelBuilder);
     }
 }
