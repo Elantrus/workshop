@@ -14,7 +14,7 @@ public class CreateAdministratorIntegrationTest
         var testServer = new IntegrationTestServer();
         await testServer.LoginAsSystem();
 
-        var createUserCommand = new CreateAdmin.Command()
+        var createUserCommand = new CreateAdmin.CreateAdminCommand()
         {
             Email = "testuser@gmail.com",
             Name = "Lazaro Junior",
@@ -23,7 +23,7 @@ public class CreateAdministratorIntegrationTest
 
         var response = await testServer.Client.PostAsJsonAsync("/api/administrator", createUserCommand);
         var serializedResponseContent = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<CreateAdmin.Result>(serializedResponseContent);
+        var result = JsonConvert.DeserializeObject<CreateAdmin.CreateAdminResult>(serializedResponseContent);
         
         Assert.True(response.IsSuccessStatusCode);
         Assert.NotNull(result);

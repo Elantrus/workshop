@@ -14,7 +14,7 @@ public class CreateAdminTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateAdmin.Handler(dbContext);
-        var command = new CreateAdmin.Command()
+        var command = new CreateAdmin.CreateAdminCommand()
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -33,7 +33,7 @@ public class CreateAdminTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateAdmin.Handler(dbContext);
-        var command = new CreateAdmin.Command
+        var command = new CreateAdmin.CreateAdminCommand
         {
             Email = "teste",
             Name = "Lazaro Junior",
@@ -49,7 +49,7 @@ public class CreateAdminTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateAdmin.Handler(dbContext);
-        var command = new CreateAdmin.Command
+        var command = new CreateAdmin.CreateAdminCommand
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -65,7 +65,7 @@ public class CreateAdminTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateAdmin.Handler(dbContext);
-        var command = new CreateAdmin.Command
+        var command = new CreateAdmin.CreateAdminCommand
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -81,7 +81,7 @@ public class CreateAdminTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateAdmin.Handler(dbContext);
-        var command = new CreateAdmin.Command
+        var command = new CreateAdmin.CreateAdminCommand
         {
             Email = "teste@gmail.com",
             Name = "a",

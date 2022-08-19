@@ -10,20 +10,20 @@ namespace Users.Application.Features;
 
 public class AuthenticateUser
 {
-    public class Command : IRequest<Result>
+    public class AuthenticateUserCommand : IRequest<AuthenticateUserResult>
     {
         public string? Email { get; set; }
         public string? Password { get; set; }
     }
 
-    public class Result
+    public class AuthenticateUserResult
     {
         public string? Token { get; set; }
         public string? RefreshToken { get; set; }
     }
     
-    public class Handler : IRequestHandler<Command,
-        Result>
+    public class Handler : IRequestHandler<AuthenticateUserCommand,
+        AuthenticateUserResult>
     {
         private readonly UsersDbContext _usersDbContext;
         private readonly ITokenService _tokenService;
@@ -34,7 +34,7 @@ public class AuthenticateUser
             _tokenService = tokenService;
         }
 
-        public async Task<Result> Handle(Command request,
+        public async Task<AuthenticateUserResult> Handle(AuthenticateUserCommand request,
             CancellationToken cancellationToken)
         {
             if (request.Password is null) throw new InvalidPasswordException();
@@ -61,7 +61,7 @@ public class AuthenticateUser
 
             await SetCustomerRefreshAndSave(refreshToken, userDb);
 
-            return new Result()
+            return new AuthenticateUserResult()
             {
                 Token = generatedJwtToken,
                 RefreshToken = userDb.RefreshToken.ToString()

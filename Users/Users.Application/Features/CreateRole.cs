@@ -1,3 +1,4 @@
+using Mapster;
 using MediatR;
 using Users.Core.Entities;
 using Users.Core.Exceptions;
@@ -7,19 +8,24 @@ namespace Users.Application.Features;
 
 public class CreateRole
 {
-    public class Command : IRequest
+    public class CreateRoleCommand : IRequest<CreateRoleResult>
     {
         public string? Name { get; set; }
     }
+
+    public class CreateRoleResult
+    {
+        public long RoleId { get; set; }
+    }
     
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandler<CreateRoleCommand, CreateRoleResult>
     {
         private readonly UsersDbContext _usersDbContext;
         public Handler(UsersDbContext usersDbContext)
         {   
             _usersDbContext = usersDbContext;
         }
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<CreateRoleResult> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(request?.Name)) throw new RoleNameTooShortException();
 
@@ -35,7 +41,7 @@ public class CreateRole
 
             await _usersDbContext.SaveChangesAsync(cancellationToken);
         
-            return Unit.Value;
+            return roleDb.Adapt<CreateRoleResult>();
         }
     }
 }

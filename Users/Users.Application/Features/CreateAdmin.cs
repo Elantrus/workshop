@@ -8,26 +8,26 @@ namespace Users.Application.Features;
 
 public class CreateAdmin
 {
-    public class Command : IRequest<Result>
+    public class CreateAdminCommand : IRequest<CreateAdminResult>
     {
         public string Email { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
     }
 
-    public class Result
+    public class CreateAdminResult
     {
         public long UserId { get; set; }
     }
     
-    public class Handler : IRequestHandler<Command, Result>
+    public class Handler : IRequestHandler<CreateAdminCommand, CreateAdminResult>
     {
         private readonly UsersDbContext _usersDbContext;
         public Handler(UsersDbContext usersDbContext)
         {
             _usersDbContext = usersDbContext;
         }
-        public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<CreateAdminResult> Handle(CreateAdminCommand request, CancellationToken cancellationToken)
         {
             if (request is null) throw new ArgumentNullException();
 
@@ -45,7 +45,7 @@ public class CreateAdmin
         
             await _usersDbContext.SaveChangesAsync(cancellationToken);
 
-            return adminDb.Adapt<Result>();
+            return adminDb.Adapt<CreateAdminResult>();
         }
     }
 }

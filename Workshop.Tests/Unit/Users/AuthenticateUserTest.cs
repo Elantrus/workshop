@@ -20,14 +20,14 @@ public class AuthenticateUserTest
         var authenticateUserHandler = new AuthenticateUser.Handler(dbContext, tokenService);
         var password = "str0ng@!PasS";
         var email = "teste@gmail.com";
-        var command = new CreateCustomer.Command()
+        var command = new CreateCustomer.CreateCustomerCommand()
         {
             Email = email,
             Name = "Lazaro Junior",
             Password = password
         };
         
-        var authenticateCommand = new AuthenticateUser.Command
+        var authenticateCommand = new AuthenticateUser.AuthenticateUserCommand
         {
             Email = email,
             Password = password
@@ -51,7 +51,7 @@ public class AuthenticateUserTest
         var password = "str0ng@!PasS";
         var email = "teste@gmail.com";
         
-        var authenticateCommand = new AuthenticateUser.Command
+        var authenticateCommand = new AuthenticateUser.AuthenticateUserCommand
         {
             Email = email,
             Password = password
@@ -71,14 +71,14 @@ public class AuthenticateUserTest
         var authenticateUserHandler = new AuthenticateUser.Handler(dbContext, tokenService);
         var password = "str0ng@!PasS";
         var email = "teste@gmail.com";
-        var command = new CreateCustomer.Command()
+        var command = new CreateCustomer.CreateCustomerCommand()
         {
             Email = email,
             Name = "Lazaro Junior",
             Password = password
         };
         
-        var authenticateCommand = new AuthenticateUser.Command()
+        var authenticateCommand = new AuthenticateUser.AuthenticateUserCommand()
         {
             Email = email,
             Password = "anypassword"

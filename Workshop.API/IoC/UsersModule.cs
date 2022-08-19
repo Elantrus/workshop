@@ -8,7 +8,7 @@ public static class UsersModule
 {
     public static void AddUsers(this IServiceCollection serviceCollection, bool development)
     {
-        serviceCollection.AddMediatR(typeof(Users.Application.Features.AuthenticateUser).Assembly);
+        serviceCollection.AddMediatR(typeof(Users.Application.Features.AssignAdministratorRole).Assembly);
         serviceCollection.AddUsersDatabase(development);
     }
 }

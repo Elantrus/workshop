@@ -2,25 +2,25 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Users.Application.Features;
-using Workshop.API.Extensions;
 
 namespace Workshop.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Authorize(Roles = "admin")]
-public class AdministratorController : ControllerBase
+public class RoleController : ControllerBase
 {
     private readonly IMediator _mediator;
-    public AdministratorController(IMediator mediator)
+    public RoleController(IMediator mediator)
     {
         _mediator = mediator;
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreateAdmin([FromBody] CreateAdmin.CreateAdminCommand createAdminCreateAdminCommand)
+    public async Task<IActionResult> CreateRole([FromBody] CreateRole.CreateRoleCommand command)
     {
-        var result = await _mediator.Send(createAdminCreateAdminCommand);
+        var result = await _mediator.Send(command);
+
         return Ok(result);
     }
 }

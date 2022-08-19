@@ -6,13 +6,13 @@ namespace Users.Application.Features;
 
 public class AssignAdministratorRole
 {
-    public class Command : IRequest
+    public class AssignAdministratorRoleCommand : IRequest
     {
         public long UserId { get; set; }
         public long RoleId { get; set; }
     }
     
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandler<AssignAdministratorRoleCommand>
     {
         private readonly UsersDbContext _dbContext;
 
@@ -21,7 +21,7 @@ public class AssignAdministratorRole
             _dbContext = dbContext;
         }
 
-        public async Task<Unit> Handle(Command request,
+        public async Task<Unit> Handle(AssignAdministratorRoleCommand request,
             CancellationToken cancellationToken)
         {
             var roleDb = _dbContext.Roles.SingleOrDefault(x => x.RoleId == request.RoleId) ??

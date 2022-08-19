@@ -21,7 +21,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUser()
     {
         var userId = User.Claims.GetUserId();
-        var getUserCommand = new GetUser.Command { UserId =  userId };
+        var getUserCommand = new GetUser.GetUserCommand { UserId =  userId };
         var result = await _mediator.Send(getUserCommand);
         return Ok(result);
     }

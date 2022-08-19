@@ -15,7 +15,7 @@ public class AssignAdministratorRoleTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
         
         var createAdminHandler = new CreateAdmin.Handler(dbContext);
-        var createAdminCommand = new CreateAdmin.Command
+        var createAdminCommand = new CreateAdmin.CreateAdminCommand
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -25,7 +25,7 @@ public class AssignAdministratorRoleTest
         var createAdminResult = await createAdminHandler.Handle(createAdminCommand, CancellationToken.None);
         
         var handler = new AssignAdministratorRole.Handler(dbContext);
-        var command = new AssignAdministratorRole.Command
+        var command = new AssignAdministratorRole.AssignAdministratorRoleCommand
         {
            RoleId = 1,
            UserId = createAdminResult.UserId
@@ -42,7 +42,7 @@ public class AssignAdministratorRoleTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
        
         var handler = new AssignAdministratorRole.Handler(dbContext);
-        var command = new AssignAdministratorRole.Command()
+        var command = new AssignAdministratorRole.AssignAdministratorRoleCommand()
         {
             RoleId = 999
         };
@@ -67,7 +67,7 @@ public class AssignAdministratorRoleTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
        
         var handler = new AssignAdministratorRole.Handler(dbContext);
-        var command = new AssignAdministratorRole.Command()
+        var command = new AssignAdministratorRole.AssignAdministratorRoleCommand()
         {
             RoleId = 1,
             UserId = long.MaxValue

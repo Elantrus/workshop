@@ -23,18 +23,18 @@ public class RefreshCustomerTest
         var refreshCustomerHandler = new RefreshUser.Handler(dbContext, tokenService);
         var password = "str0ng@!PasS";
         var email = "teste@gmail.com";
-        var command = new CreateCustomer.Command
+        var command = new CreateCustomer.CreateCustomerCommand
         {
             Email = email,
             Name = "Lazaro Junior",
             Password = password
         };
-        var authenticateCommand = new AuthenticateUser.Command()
+        var authenticateCommand = new AuthenticateUser.AuthenticateUserCommand()
         {
             Email = email,
             Password = password
         };
-        var refreshCommand = new RefreshUser.Command();
+        var refreshCommand = new RefreshUser.RefreshUserCommand();
         await createUserHandler.Handle(command, CancellationToken.None);
         var authenticationResult = await authenticateUserHandler.Handle(authenticateCommand, CancellationToken.None);
         refreshCommand.RefreshToken = authenticationResult.RefreshToken;

@@ -9,18 +9,18 @@ namespace Users.Application.Features;
 
 public class RefreshUser
 {
-    public class Command : IRequest<Result>
+    public class RefreshUserCommand : IRequest<RefreshUserResult>
     {
         public string? RefreshToken { get; set; }
     }
 
-    public class Result
+    public class RefreshUserResult
     {
         public string? Token { get; set; }
         public string? RefreshToken { get; set; }
     }
     
-    public class Handler : IRequestHandler<Command, Result>
+    public class Handler : IRequestHandler<RefreshUserCommand, RefreshUserResult>
     {
         private readonly UsersDbContext _usersDbContext;
         private readonly ITokenService _tokenService;
@@ -31,19 +31,21 @@ public class RefreshUser
             _usersDbContext = usersDbContext;
         }
 
-        public async Task<Result> Handle(Command request,
+        public async Task<RefreshUserResult> Handle(RefreshUserCommand request,
             CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(request?.RefreshToken)) throw new NoNullAllowedException();
         
             var refreshTokenGuid = Guid.Parse(request.RefreshToken);
-            var customerDb =
-                await _usersDbContext.Customers.SingleOrDefaultAsync(x => x.RefreshToken == refreshTokenGuid,
+            var userDb =
+                await _usersDbContext.Users
+                    .Include(x => x.Role)
+                    .SingleOrDefaultAsync(x => x.RefreshToken == refreshTokenGuid,
                     cancellationToken: cancellationToken) ?? throw new RefreshTokenIsNotValidException();
 
-            var generatedToken = _tokenService.GenerateToken(customerDb);
+            var generatedToken = _tokenService.GenerateToken(userDb);
 
-            return new Result
+            return new RefreshUserResult
             {
                 Token = generatedToken,
                 RefreshToken = request.RefreshToken

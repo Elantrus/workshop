@@ -8,7 +8,7 @@ namespace Users.Application.Features;
 
 public class GetUser
 {
-    public class Command : IRequest<Result>
+    public class GetUserCommand : IRequest<Result>
     {
         public long UserId { get; set; }
     }
@@ -20,7 +20,7 @@ public class GetUser
     }
     
     public class
-        Handler : IRequestHandler<Command, Result>
+        Handler : IRequestHandler<GetUserCommand, Result>
     {
         private readonly UsersDbContext _usersDbContext;
 
@@ -29,7 +29,7 @@ public class GetUser
             _usersDbContext = usersDbContext;
         }
 
-        public async Task<Result> Handle(Command request,
+        public async Task<Result> Handle(GetUserCommand request,
             CancellationToken cancellationToken)
         {
             var customerDb =

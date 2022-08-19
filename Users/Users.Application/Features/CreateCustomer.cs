@@ -8,25 +8,25 @@ namespace Users.Application.Features;
 
 public class CreateCustomer
 {
-    public class Command : IRequest<Result>
+    public class CreateCustomerCommand : IRequest<CreateCustomerResult>
     {
         public string? Email { get; set; }
         public string? Password { get; set; }
         public string? Name { get; set; }
     }
 
-    public class Result
+    public class CreateCustomerResult
     {
         public long UserId { get; set; }
     }
-    public class Handler : IRequestHandler<Command, Result>
+    public class Handler : IRequestHandler<CreateCustomerCommand, CreateCustomerResult>
     {
         private readonly UsersDbContext _usersDbContext;
         public Handler(UsersDbContext usersDbContext)
         {
             _usersDbContext = usersDbContext;
         }
-        public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<CreateCustomerResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             if (request is null) throw new ArgumentNullException();
 
@@ -44,7 +44,7 @@ public class CreateCustomer
         
             await _usersDbContext.SaveChangesAsync(cancellationToken);
 
-            return customerDb.Adapt<Result>();
+            return customerDb.Adapt<CreateCustomerResult>();
         }
     }
 }

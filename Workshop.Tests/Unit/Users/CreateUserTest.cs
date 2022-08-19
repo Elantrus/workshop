@@ -15,7 +15,7 @@ public class CreateUserTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateCustomer.Handler(dbContext);
-        var command = new CreateCustomer.Command
+        var command = new CreateCustomer.CreateCustomerCommand
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -35,7 +35,7 @@ public class CreateUserTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateCustomer.Handler(dbContext);
-        var command = new CreateCustomer.Command
+        var command = new CreateCustomer.CreateCustomerCommand
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -64,7 +64,7 @@ public class CreateUserTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateCustomer.Handler(dbContext);
-        var command = new CreateCustomer.Command
+        var command = new CreateCustomer.CreateCustomerCommand
         {
             Email = "teste",
             Name = "Lazaro Junior",
@@ -80,7 +80,7 @@ public class CreateUserTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateCustomer.Handler(dbContext);
-        var command = new CreateCustomer.Command
+        var command = new CreateCustomer.CreateCustomerCommand
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -96,7 +96,7 @@ public class CreateUserTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateCustomer.Handler(dbContext);
-        var command = new CreateCustomer.Command
+        var command = new CreateCustomer.CreateCustomerCommand
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -112,7 +112,7 @@ public class CreateUserTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateCustomer.Handler(dbContext);
-        var command = new CreateCustomer.Command()
+        var command = new CreateCustomer.CreateCustomerCommand()
         {
             Email = "teste@gmail.com",
             Name = "a",

@@ -13,7 +13,7 @@ public class CreateRoleTest
     {
         var dbContext = InMemoryDatabase.CreateUsersDb();
         var handler = new CreateRole.Handler(dbContext);
-        var command = new CreateRole.Command
+        var command = new CreateRole.CreateRoleCommand
         {
             Name = "toplaner",
         };
@@ -29,7 +29,7 @@ public class CreateRoleTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateRole.Handler(dbContext);
-        var command = new CreateRole.Command
+        var command = new CreateRole.CreateRoleCommand
         {
             Name = "admin",
         };
@@ -44,7 +44,7 @@ public class CreateRoleTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var handler = new CreateRole.Handler(dbContext);
-        var command = new CreateRole.Command()
+        var command = new CreateRole.CreateRoleCommand()
         {
             Name = "",
         };

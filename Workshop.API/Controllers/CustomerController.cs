@@ -19,9 +19,9 @@ public class CustomerController : ControllerBase
     
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomer.Command createCustomerCommand)
+    public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomer.CreateCustomerCommand createCustomerCreateCustomerCommand)
     {
-        var result = await _mediator.Send(createCustomerCommand);
+        var result = await _mediator.Send(createCustomerCreateCustomerCommand);
         return Ok(result);
     }
 
