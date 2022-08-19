@@ -14,7 +14,7 @@ public class RoleIntegrationTest
         await testServer.LoginAsSystem();
         var createRoleCommand = new CreateRole.CreateRoleCommand
         {
-            Name = "CustomRole"
+            Name = "CustomOne"
         };
         var result = await testServer.Post<CreateRole.CreateRoleResult>("/api/role", createRoleCommand);
         Assert.IsTrue(result.Success);
