@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Users.Application.Features;
-using Users.Contracts;
+using Users.Application.Services;
 using Users.Core.Services;
 using Users.Infrastructure.Data;
 
@@ -18,9 +18,9 @@ public class RefreshCustomerTest
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
         var tokenService = new TokenService("E)H@McQfTjWnZr4u7x!A%D*G-JaNdRgU") as ITokenService;
-        var createUserHandler = new CreateCustomerApplicationHandler(dbContext);
-        var authenticateUserHandler = new AuthenticateUserApplicationHandler(dbContext, tokenService);
-        var refreshCustomerHandler = new RefreshUserApplicationHandler(dbContext, tokenService);
+        var createUserHandler = new CreateCustomer.Handler(dbContext);
+        var authenticateUserHandler = new AuthenticateUser.Handler(dbContext, tokenService);
+        var refreshCustomerHandler = new RefreshUser.Handler(dbContext, tokenService);
         var password = "str0ng@!PasS";
         var email = "teste@gmail.com";
         var command = new CreateCustomer.CreateCustomerCommand
@@ -29,7 +29,7 @@ public class RefreshCustomerTest
             Name = "Lazaro Junior",
             Password = password
         };
-        var authenticateCommand = new AuthenticateUser.AuthenticateUserCommand
+        var authenticateCommand = new AuthenticateUser.AuthenticateUserCommand()
         {
             Email = email,
             Password = password

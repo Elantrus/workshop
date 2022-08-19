@@ -6,6 +6,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddUsers(isDevelopment);
+builder.Services.AddAuth(builder.Environment);
 
 var app = builder.Build();
 
@@ -20,6 +21,7 @@ if (isDevelopment)
 
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

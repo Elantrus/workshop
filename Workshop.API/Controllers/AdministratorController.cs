@@ -8,21 +8,19 @@ namespace Workshop.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "customer")]
-public class CustomerController : ControllerBase
+[Authorize(Roles = "admin")]
+public class AdministratorController : ControllerBase
 {
     private readonly IMediator _mediator;
-    public CustomerController(IMediator mediator)
+    public AdministratorController(IMediator mediator)
     {
         _mediator = mediator;
     }
     
     [HttpPost]
-    [AllowAnonymous]
-    public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomer.CreateCustomerCommand createCustomerCreateCustomerCommand)
+    public async Task<IActionResult> CreateAdmin([FromBody] CreateAdmin.CreateAdminCommand createAdminCreateAdminCommand)
     {
-        var result = await _mediator.Send(createCustomerCreateCustomerCommand);
+        var result = await _mediator.Send(createAdminCreateAdminCommand);
         return Ok(result);
     }
-
 }

@@ -1,12 +1,8 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Users.Application.Features;
-using Users.Contracts;
 using Users.Core.Exceptions;
-using Users.Infrastructure.Data;
 
 namespace Workshop.Tests.Unit.Users;
 
@@ -16,7 +12,7 @@ public class CreateRoleTest
     public async Task Test_ShouldCreateRole()
     {
         var dbContext = InMemoryDatabase.CreateUsersDb();
-        var handler = new CreateRoleApplicationHandler(dbContext);
+        var handler = new CreateRole.Handler(dbContext);
         var command = new CreateRole.CreateRoleCommand
         {
             Name = "toplaner",
@@ -28,27 +24,32 @@ public class CreateRoleTest
     }
     
     [Test]
-    public async Task Test_CreateRoleShouldFailBecauseOfExistingRole()
+    public void Test_CreateRoleShouldThrowRoleAlreadyExist()
     {
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
-        var handler = new CreateRoleApplicationHandler(dbContext);
+        var handler = new CreateRole.Handler(dbContext);
         var command = new CreateRole.CreateRoleCommand
         {
             Name = "admin",
         };
 
-        Exception? givenException = null; 
-        try
+        Assert.ThrowsAsync<RoleAlreadyExistException>(async () =>
+            await handler.Handle(command, CancellationToken.None));
+    }
+    
+    [Test]
+    public void Test_CreateRoleShouldThrowRoleNameTooShort()
+    {
+        var dbContext = InMemoryDatabase.CreateUsersDb();
+
+        var handler = new CreateRole.Handler(dbContext);
+        var command = new CreateRole.CreateRoleCommand()
         {
-            await handler.Handle(command, CancellationToken.None);
-        }
-        catch (Exception? ex)
-        {
-            givenException = ex;
-        }
-        
-        Assert.NotNull(givenException);
-        Assert.IsInstanceOf<RoleAlreadyExistException>(givenException);
+            Name = "",
+        };
+
+        Assert.ThrowsAsync<RoleNameTooShortException>(async () =>
+            await handler.Handle(command, CancellationToken.None));
     }
 }

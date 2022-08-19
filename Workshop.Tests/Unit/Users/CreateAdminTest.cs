@@ -1,11 +1,8 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Users.Application.Features;
-using Users.Contracts;
-using Users.Infrastructure.Data;
+using Users.Core.Exceptions;
 
 namespace Workshop.Tests.Unit.Users;
 
@@ -16,8 +13,8 @@ public class CreateAdminTest
     {
         var dbContext = InMemoryDatabase.CreateUsersDb();
 
-        var handler = new CreateAdminApplicationHandler(dbContext);
-        var command = new CreateAdmin.CreateAdminCommand
+        var handler = new CreateAdmin.Handler(dbContext);
+        var command = new CreateAdmin.CreateAdminCommand()
         {
             Email = "teste@gmail.com",
             Name = "Lazaro Junior",
@@ -28,5 +25,69 @@ public class CreateAdminTest
 
         Assert.NotNull(sendResult);
         Assert.NotZero(sendResult.UserId);
+    }
+    
+    [Test]
+    public void Test_CreateAdminShouldThrowInvalidEmail()
+    {
+        var dbContext = InMemoryDatabase.CreateUsersDb();
+
+        var handler = new CreateAdmin.Handler(dbContext);
+        var command = new CreateAdmin.CreateAdminCommand
+        {
+            Email = "teste",
+            Name = "Lazaro Junior",
+            Password = "str0ng@!PasS"
+        };
+        
+        Assert.ThrowsAsync<InvalidEmailException>(async () => await handler.Handle(command, CancellationToken.None));
+    }
+    
+    [Test]
+    public void Test_CreateAdminShouldThrowPasswordTooWeak()
+    {
+        var dbContext = InMemoryDatabase.CreateUsersDb();
+
+        var handler = new CreateAdmin.Handler(dbContext);
+        var command = new CreateAdmin.CreateAdminCommand
+        {
+            Email = "teste@gmail.com",
+            Name = "Lazaro Junior",
+            Password = "notstrongoass"
+        };
+        
+        Assert.ThrowsAsync<PasswordIsTooWeakException>(async () => await handler.Handle(command, CancellationToken.None));
+    }
+    
+    [Test]
+    public void Test_CreateAdminShouldThrowPasswordTooShort()
+    {
+        var dbContext = InMemoryDatabase.CreateUsersDb();
+
+        var handler = new CreateAdmin.Handler(dbContext);
+        var command = new CreateAdmin.CreateAdminCommand
+        {
+            Email = "teste@gmail.com",
+            Name = "Lazaro Junior",
+            Password = "a"
+        };
+        
+        Assert.ThrowsAsync<PasswordTooShortException>(async () => await handler.Handle(command, CancellationToken.None));
+    }
+    
+    [Test]
+    public void Test_CreateAdminShouldThrowFullNameTooShort()
+    {
+        var dbContext = InMemoryDatabase.CreateUsersDb();
+
+        var handler = new CreateAdmin.Handler(dbContext);
+        var command = new CreateAdmin.CreateAdminCommand
+        {
+            Email = "teste@gmail.com",
+            Name = "a",
+            Password = "sSwe2#2L@"
+        };
+        
+        Assert.ThrowsAsync<FullNameTooShortException>(async () => await handler.Handle(command, CancellationToken.None));
     }
 }

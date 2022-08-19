@@ -3,21 +3,25 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Users.Core.Entities;
+using Users.Core.Exceptions;
+using Users.Core.Services;
 
-namespace Users.Core.Services;
+namespace Users.Application.Services;
 
 public class TokenService : ITokenService
 {
-    private readonly byte[] jwtSecurity;
+    private readonly byte[] _jwtSecurity;
 
     public TokenService(string jwtPassword)
     {
-        jwtSecurity = Encoding.UTF8.GetBytes(jwtPassword);
+        _jwtSecurity = Encoding.UTF8.GetBytes(jwtPassword);
     }
 
     public string GenerateToken(User userDb)
     {
-        var secretKey = new SymmetricSecurityKey(jwtSecurity);
+        if (userDb.Role is null) throw new UserHasNoRoleException();
+        
+        var secretKey = new SymmetricSecurityKey(_jwtSecurity);
         var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
         var tokeOptions = new JwtSecurityToken(
             claims: new List<Claim>()
