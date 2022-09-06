@@ -6,4 +6,8 @@ job(".NET Core test"){
             """
         }
     }
+    
+    startOn {
+    	gitPush { enabled = true }
+    }
 }
