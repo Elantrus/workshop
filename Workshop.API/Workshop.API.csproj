@@ -15,8 +15,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Repairing\Repairing.Application\Repairing.Application.csproj" />
+      <ProjectReference Include="..\Repairing\Repairing.Infrastructure\Repairing.Infrastructure.csproj" />
       <ProjectReference Include="..\Users\Users.Application\Users.Application.csproj" />
       <ProjectReference Include="..\Users\Users.Infrastructure\Users.Infrastructure.csproj" />
+      <ProjectReference Include="..\Workshop.Common\Workshop.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>
