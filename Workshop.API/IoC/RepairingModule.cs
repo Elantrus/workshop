@@ -2,38 +2,51 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Repairing.Infrastructure.Data;
 using Users.Infrastructure.Data;
+using Workshop.Common;
 
 namespace Workshop.API.IoC;
 
 public static class RepairingModule
 {
-    public static void AddRepairing(this IServiceCollection serviceCollection, bool development)
+    public static void AddRepairing(this IServiceCollection serviceCollection, IWebHostEnvironment environment)
     {
-        serviceCollection.AddRepairingDatabase(development);
+        //serviceCollection.AddMediatR(typeof(Repairing.Application.Features).Assembly);
+
+        if (environment.IsDevelopment())
+            serviceCollection.AddInMemoryRepairingDatabase();
+        else
+            serviceCollection.AddRepairingDatabase(environment);
+    }
+    
+    public static void UseMigrateRepairing(this WebApplication app, IWebHostEnvironment environment)
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetService<UsersDbContext>();
+
+            if (dbContext == null) throw new NullReferenceException();
+            
+            if(!environment.IsDevelopment())
+                dbContext.Database.Migrate();
+
+            dbContext.Database.EnsureCreated();
+        }
     }
 
-    private static void AddRepairingDatabase(this IServiceCollection services, bool development)
+    private static void AddInMemoryRepairingDatabase(this IServiceCollection services)
     {
-        string databaseName = $"workshop.repairing";
-        if (development)
+        services.AddDbContext<UsersDbContext>(options =>
         {
-            services.AddDbContext<RepairingDbContext>(options =>
-            {
-                options.UseInMemoryDatabase(databaseName);
-            });
-        }
-        else
-        {
-            var cn = Environment.GetEnvironmentVariable("WORKSHOP_DB");
+            options.UseInMemoryDatabase("workshop.repairing");
+        });
+    }
+    private static void AddRepairingDatabase(this IServiceCollection services, IWebHostEnvironment environment)
+    {
+        var connectionString = $"Data Source={EnvVariables.WorkshopDbHost}\\SQLEXPRESS;Initial Catalog=workshop.repairing;User=sharp;Password=sharp";
 
-            if (string.IsNullOrWhiteSpace(cn))
-                cn = $"Data Source=localhost\\SQLEXPRESS;Initial Catalog={databaseName};User=sharp;Password=sharp";
-            
-            services.AddDbContext<RepairingDbContext>(options =>
-            {
-                options.UseSqlServer(cn);
-            });
-        }
-        
+        services.AddDbContext<UsersDbContext>(options =>
+        {
+            options.UseSqlServer(connectionString);
+        });
     }
 }

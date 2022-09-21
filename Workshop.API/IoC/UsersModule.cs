@@ -9,6 +9,7 @@ namespace Workshop.API.IoC;
 
 public static class UsersModule
 {
+    
     public static void AddUsers(this IServiceCollection serviceCollection, IWebHostEnvironment environment)
     {
         serviceCollection.AddMediatR(typeof(Users.Application.Features.AssignAdministratorRole).Assembly);
@@ -50,4 +51,5 @@ public static class UsersModule
             options.UseSqlServer(connectionString);
         });
     }
+    
 }

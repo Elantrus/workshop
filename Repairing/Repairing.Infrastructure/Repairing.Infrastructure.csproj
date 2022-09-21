@@ -12,4 +12,9 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Users\Users.Core\Users.Core.csproj" />
+      <ProjectReference Include="..\Repairing.Core\Repairing.Core.csproj" />
+    </ItemGroup>
+
 </Project>

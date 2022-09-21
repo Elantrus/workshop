@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Repairing.Core.Entities;
 
 namespace Repairing.Infrastructure.Data;
 
@@ -8,5 +9,6 @@ public class RepairingDbContext : DbContext
     {
     }
     
-    
+    public DbSet<Car> Cars { get; set; }
+    public DbSet<Repair> Repairs { get; set; }
 }
