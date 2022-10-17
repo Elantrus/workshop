@@ -16,7 +16,7 @@ public class CreateCarTest
         var handler = new CreateCar.Handler(dbContext);
         var command = new CreateCar.CreateCarCommand()
         {
-            LicensePlate = "AAA-0000"
+            LicensePlate = "CRT-0000"
         };
         
         var sendResult = await handler.Handle(command, CancellationToken.None);

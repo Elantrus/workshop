@@ -16,7 +16,7 @@ public class CreateRepairTest
         var handler = new CreateRepair.Handler(dbContext);
         var command = new CreateRepair.CreateRepairCommand()
         {
-        
+            
         };
         
         var sendResult = await handler.Handle(command, CancellationToken.None);
