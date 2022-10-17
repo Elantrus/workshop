@@ -2,7 +2,11 @@ namespace Users.Core.Entities;
 
 public class Administrator : User
 {
-    public static Administrator Create(string? email, string? fullname, string? password, Role? adminRole)
+    public Administrator()
+    {
+        //Entity
+    }
+    public Administrator(string? email, string? fullname, string? password, Role? adminRole)
     {
         var administrator = new Administrator();
         
@@ -10,7 +14,5 @@ public class Administrator : User
         administrator.WithPassword(password);
         administrator.WithName(fullname);
         administrator.WithRole(adminRole);
-
-        return administrator;
     }
 }

@@ -12,13 +12,16 @@ public class Role
 
     public List<User> Users { get; set; } = new List<User>();
 
-    public static Role Create(string? name)
+    public Role()
+    {
+        //Entity
+    }
+
+    public Role(string? name)
     {
         var role = new Role
         {
             Name = name
         };
-
-        return role;
     }
 }

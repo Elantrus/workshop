@@ -35,7 +35,7 @@ public class CreateRole
 
             if (roleAlreadyExist) throw new RoleAlreadyExistException();
 
-            var roleDb = Role.Create(request.Name);
+            var roleDb = new Role(request.Name);
 
             _usersDbContext.Roles.Add(roleDb);
 
