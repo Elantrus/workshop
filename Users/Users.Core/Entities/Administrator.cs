@@ -8,11 +8,9 @@ public class Administrator : User
     }
     public Administrator(string? email, string? fullname, string? password, Role? adminRole)
     {
-        var administrator = new Administrator();
-        
-        administrator.WithEmail(email);
-        administrator.WithPassword(password);
-        administrator.WithName(fullname);
-        administrator.WithRole(adminRole);
+        this.WithEmail(email);
+        this.WithPassword(password);
+        this.WithName(fullname);
+        this.WithRole(adminRole);
     }
 }

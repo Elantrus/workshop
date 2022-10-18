@@ -1,4 +1,8 @@
+using Mapster;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Repairing.Core.Entities;
+using Repairing.Core.Exceptions;
 using Repairing.Infrastructure.Data;
 
 namespace Repairing.Application.Features.Repairs;
@@ -8,7 +12,8 @@ public class CreateRepair
     public class CreateRepairCommand : IRequest<CreateRepairResult>
     {
         public long UserId { get; set; }
-        public long CarId { get; set; }
+        public string? CarLicensePlate { get; set; }
+        public string? RepairDescription { get; set; }
     }
 
     public class CreateRepairResult 
@@ -23,9 +28,19 @@ public class CreateRepair
         {
             _dbContext = dbContext;
         }
-        public Task<CreateRepairResult> Handle(CreateRepairCommand request, CancellationToken cancellationToken)
+        public async Task<CreateRepairResult> Handle(CreateRepairCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var carDb = await _dbContext.Cars.SingleOrDefaultAsync(x =>
+                            x.LicensePlate.Equals(request.CarLicensePlate,
+                                StringComparison.InvariantCultureIgnoreCase), cancellationToken: cancellationToken);
+
+            var repairDb = new Repair(carDb, request.UserId, request.RepairDescription);
+
+            _dbContext.Repairs.Add(repairDb);
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return repairDb.Adapt<CreateRepairResult>();
         }
     }
     

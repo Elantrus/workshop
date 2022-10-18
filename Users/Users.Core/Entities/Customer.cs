@@ -8,11 +8,9 @@ public class Customer : User
     }
     public Customer(string? email, string? fullname, string? password, Role? userRole)
     {
-        var customer = new Customer();
-        
-        customer.WithEmail(email);
-        customer.WithPassword(password);
-        customer.WithName(fullname);
-        customer.WithRole(userRole);
+        this.WithEmail(email);
+        this.WithPassword(password);
+        this.WithName(fullname);
+        this.WithRole(userRole);
     }
 }

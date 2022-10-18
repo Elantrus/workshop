@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Users.Core.Exceptions;
 
 namespace Users.Core.Entities;
 
@@ -19,9 +20,7 @@ public class Role
 
     public Role(string? name)
     {
-        var role = new Role
-        {
-            Name = name
-        };
+        if (string.IsNullOrEmpty(name)) throw new RoleNameTooShortException();
+        Name = name;
     }
 }

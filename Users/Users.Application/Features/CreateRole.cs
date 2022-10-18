@@ -27,8 +27,6 @@ public class CreateRole
         }
         public async Task<CreateRoleResult> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(request?.Name)) throw new RoleNameTooShortException();
-
             var roleAlreadyExist = _usersDbContext.Roles.Any(x =>
                 x.Name != null && 
                 x.Name.Equals(request.Name, StringComparison.InvariantCultureIgnoreCase));

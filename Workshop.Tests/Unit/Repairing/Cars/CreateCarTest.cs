@@ -1,10 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Repairing.Application.Features;
 using Repairing.Application.Features.Cars;
 
-namespace Workshop.Tests.Unit.Repairing;
+namespace Workshop.Tests.Unit.Repairing.Cars;
 
 public class CreateCarTest
 {
