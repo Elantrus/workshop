@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Users.Core.Exceptions;
 
 namespace Users.Core.Entities;
 
@@ -12,13 +13,14 @@ public class Role
 
     public List<User> Users { get; set; } = new List<User>();
 
-    public static Role Create(string? name)
+    public Role()
     {
-        var role = new Role
-        {
-            Name = name
-        };
+        //Entity
+    }
 
-        return role;
+    public Role(string? name)
+    {
+        if (string.IsNullOrEmpty(name)) throw new RoleNameTooShortException();
+        Name = name;
     }
 }

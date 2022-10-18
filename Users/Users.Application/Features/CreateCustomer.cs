@@ -38,7 +38,7 @@ public class CreateCustomer
 
             var customerRole = _usersDbContext.Roles.SingleOrDefault(x => x.Name != null && x.Name.Equals("customer")) ?? throw new RoleNotFoundException();
 
-            var customerDb = Customer.Create(request.Email, request.Name, request.Password, customerRole);
+            var customerDb = new Customer(request.Email, request.Name, request.Password, customerRole);
 
             _usersDbContext.Customers.Add(customerDb);
         

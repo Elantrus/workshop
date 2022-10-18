@@ -5,12 +5,12 @@ var isDevelopment = builder.Environment.IsDevelopment();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddUsers(isDevelopment);
+builder.Services.AddUsers(builder.Environment);
 builder.Services.AddAuth(builder.Environment);
 
 var app = builder.Build();
 
-app.UseMigrateUsers(isDevelopment);
+app.UseMigrateUsers(builder.Environment);
 app.UseMiddleware<CustomExceptionMiddlerware>();
 
 if (isDevelopment)

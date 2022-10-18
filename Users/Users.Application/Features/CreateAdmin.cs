@@ -39,7 +39,7 @@ public class CreateAdmin
 
             var adminRole = _usersDbContext.Roles.SingleOrDefault(x => x.Name != null && x.Name.Equals("admin")) ?? throw new RoleNotFoundException();
         
-            var adminDb = Administrator.Create(request.Email, request.Name, request.Password, adminRole);
+            var adminDb = new Administrator(request.Email, request.Name, request.Password, adminRole);
 
             _usersDbContext.Administrators.Add(adminDb);
         
